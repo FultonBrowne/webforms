@@ -10,16 +10,10 @@
 <.table
   id="web_forms"
   rows={@streams.web_forms}
-  row_click={fn {_id, web_form} -> JS.navigate(~p"/web_forms/#{web_form}") end}
+  row_click={fn {_id, web_form} -> JS.navigate(~p"/web_forms/#{web_form}/edit") end}
 >
   <:col :let={{_id, web_form}} label="Title">{web_form.title}</:col>
   <:col :let={{_id, web_form}} label="Description">{web_form.description}</:col>
-  <:action :let={{_id, web_form}}>
-    <div class="sr-only">
-      <.link navigate={~p"/web_forms/#{web_form}"}>Show</.link>
-    </div>
-    <.link patch={~p"/web_forms/#{web_form}/edit"}>Edit</.link>
-  </:action>
   <:action :let={{id, web_form}}>
     <.link
       phx-click={JS.push("delete", value: %{id: web_form.id}) |> hide("##{id}")}
@@ -30,7 +24,12 @@
   </:action>
 </.table>
 
-<.modal :if={@live_action in [:new, :edit]} id="web_form-modal" show on_cancel={JS.patch(~p"/web_forms")}>
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="web_form-modal"
+  show
+  on_cancel={JS.patch(~p"/web_forms")}
+>
   <.live_component
     module={FormsWeb.WebFormLive.FormComponent}
     id={@web_form.id || :new}

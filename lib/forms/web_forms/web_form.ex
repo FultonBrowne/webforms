@@ -6,6 +6,7 @@ defmodule Forms.WebForms.WebForm do
     field :description, :string
     field :title, :string
     field :user_id, :id
+    field :schema, :map, default: %{}
 
     timestamps(type: :utc_datetime)
   end
