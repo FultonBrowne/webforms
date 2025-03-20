@@ -166,7 +166,11 @@ defmodule FormsWeb.WebFormLive.FormComponent do
   end
 
   defp save_web_form(socket, :edit, web_form_params) do
-    case WebForms.update_web_form(socket.assigns.web_form, web_form_params) do
+    updared_params =
+      web_form_params
+      |> Map.put("schema", socket.assigns.schema)
+
+    case WebForms.update_web_form(socket.assigns.web_form, updared_params) do
       {:ok, web_form} ->
         notify_parent({:saved, web_form})
 
@@ -181,7 +185,10 @@ defmodule FormsWeb.WebFormLive.FormComponent do
   end
 
   defp save_web_form(socket, :new, web_form_params) do
-    case WebForms.create_web_form(web_form_params) do
+    updared_params =
+      web_form_params |> Map.put("schema", socket.assigns.schema)
+
+    case WebForms.create_web_form(updared_params) do
       {:ok, web_form} ->
         notify_parent({:saved, web_form})
 
