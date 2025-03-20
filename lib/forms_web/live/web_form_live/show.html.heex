@@ -1,0 +1,27 @@
+<.header>
+  Web form {@web_form.id}
+  <:subtitle>This is a web_form record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/web_forms/#{@web_form}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit web_form</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Title">{@web_form.title}</:item>
+  <:item title="Description">{@web_form.description}</:item>
+</.list>
+
+<.back navigate={~p"/web_forms"}>Back to web_forms</.back>
+
+<.modal :if={@live_action == :edit} id="web_form-modal" show on_cancel={JS.patch(~p"/web_forms/#{@web_form}")}>
+  <.live_component
+    module={FormsWeb.WebFormLive.FormComponent}
+    id={@web_form.id}
+    title={@page_title}
+    action={@live_action}
+    web_form={@web_form}
+    patch={~p"/web_forms/#{@web_form}"}
+  />
+</.modal>
